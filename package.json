@@ -1,0 +1,19 @@
+{
+  "name": "base-wa",
+  "version": "1.0.0",
+  "description": "A WhatsApp bot base project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "wa"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {}
+}
