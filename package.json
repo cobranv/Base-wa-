@@ -1,5 +1,5 @@
 {
-  "name": "Base",
+  "name": "Noxtra",
   "version": "1.0.0",
   "description": "Bot whatsapp md menggunakan nodejs dan baileys lib",
   "main": "index.js",
@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js"
   },
-  "author": "base",
+  "author": "Cobra Dep",
   "license": "ISC",
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
