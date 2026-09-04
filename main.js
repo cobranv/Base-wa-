@@ -13,9 +13,7 @@ const connectToWEA = async () => {
     const logger = pino({ level: "silent" });
 
     const sock = makeWASocket({
-        auth: {
-            creds: state.creds
-        },
+        auth: state,
         version,
         logger,
         printQRInTerminal: false,
@@ -34,9 +32,9 @@ const connectToWEA = async () => {
 
             const code = await sock.requestPairingCode(phoneNumber);
 
-            console.log("==============================");
-            console.log("PAIRING CODE KAMU:", code);
-            console.log("==============================");
+            console.log("==================================");
+            console.log("== PAIRING CODE KAMU:", code, " ==");
+            console.log("==================================");
         } catch (err) {
             console.log(err);
         }
