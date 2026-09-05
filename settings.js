@@ -1,3 +1,4 @@
 export const global = {
-    phoneNumber: ""
+    phoneNumber: "",
+    prefix: "."
 };

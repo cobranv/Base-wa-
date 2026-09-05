@@ -6,6 +6,7 @@ import {
 } from "@whiskeysockets/baileys";
 import pino from "pino";
 import { global } from "./settings.js";
+import fs from "fs";
 
 const connectToWEA = async () => {
     const { state, saveCreds } = await useMultiFileAuthState("./session");
@@ -87,8 +88,22 @@ const connectToWEA = async () => {
     });
 
     sock.ev.on("messages.upsert", ({ messages }) => {
-        const msg = messages[0];
-        console.log(msg);
+        const m = messages[0];
+        const sender = m.key.remoteJid;
+        const username = m.pushName;
+        const jid = m.key.remoteJidAlt || m.key.participantAlt;
+        const lid = m.key.participant || m.key.remoteJid;
+        const isGroup = sender.includes("@g.us");
+        const text =
+            m.message?.conversation ||
+            m.extendedTextMessage?.text ||
+            m.imageMessage?.caption;
+
+        const args = text.slice(global.prefix.length).split(" ");
+        const cmd = args.shift().toLowerCase();
+        const query = args.join(" ");
+
+        console.log({ sender, username, jid, lid, isGroup, text, cmd, query });
     });
 };
 
