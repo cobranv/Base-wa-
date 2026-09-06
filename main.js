@@ -7,6 +7,7 @@ import {
 import pino from "pino";
 import { global } from "./settings.js";
 import fs from "fs";
+import { handleCase } from "./case.js";
 
 const connectToWEA = async () => {
     const { state, saveCreds } = await useMultiFileAuthState("./session");
@@ -87,7 +88,7 @@ const connectToWEA = async () => {
         }
     });
 
-    sock.ev.on("messages.upsert", ({ messages }) => {
+    sock.ev.on("messages.upsert", async ({ messages }) => {
         const m = messages[0];
         const sender = m.key.remoteJid;
         const username = m.pushName;
@@ -96,14 +97,18 @@ const connectToWEA = async () => {
         const isGroup = sender.includes("@g.us");
         const text =
             m.message?.conversation ||
-            m.extendedTextMessage?.text ||
+            m.message.extendedTextMessage?.text ||
             m.imageMessage?.caption;
+
+        if (!text || !text.startsWith(global.prefix)) return;
 
         const args = text.slice(global.prefix.length).split(" ");
         const cmd = args.shift().toLowerCase();
         const query = args.join(" ");
 
         console.log({ sender, username, jid, lid, isGroup, text, cmd, query });
+
+        await handleCase({ sock, sender, cmd, query });
     });
 };
 
